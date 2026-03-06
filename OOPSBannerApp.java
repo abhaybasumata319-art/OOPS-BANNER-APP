@@ -1,36 +1,38 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * OOPSBannerApp UC7 - Store Character Pattern in a Class
+ * OOPSBannerApp UC8 - Store Character Pattern using Map
  */
 
 public class OOPSBannerApp {
 
     /**
-     * CharacterPatternMap – Inner class to store character and its ASCII pattern
+     * Inner Static Class to store character and pattern
      */
     static class CharacterPatternMap {
 
         private char character;
         private String[] pattern;
 
-        // Constructor
         public CharacterPatternMap(char character, String[] pattern) {
             this.character = character;
             this.pattern = pattern;
         }
 
-        // Getter for character
         public char getCharacter() {
             return character;
         }
 
-        // Getter for pattern
         public String[] getPattern() {
             return pattern;
         }
     }
 
-    // Create CharacterPatternMap objects
-    public static CharacterPatternMap[] createCharacterPatternMaps() {
+    // Create Map of character patterns
+    public static Map<Character, String[]> createCharacterPatternMap() {
+
+        Map<Character, String[]> map = new HashMap<>();
 
         String[] O = {
                 " *** ",
@@ -72,30 +74,26 @@ public class OOPSBannerApp {
                 "     "
         };
 
-        CharacterPatternMap[] charMaps = new CharacterPatternMap[4];
+        map.put('O', O);
+        map.put('P', P);
+        map.put('S', S);
+        map.put(' ', space);
 
-        charMaps[0] = new CharacterPatternMap('O', O);
-        charMaps[1] = new CharacterPatternMap('P', P);
-        charMaps[2] = new CharacterPatternMap('S', S);
-        charMaps[3] = new CharacterPatternMap(' ', space);
-
-        return charMaps;
+        return map;
     }
 
-    // Get pattern for character
-    public static String[] getCharacterPattern(char ch, CharacterPatternMap[] charMaps) {
+    // Get pattern using Map
+    public static String[] getCharacterPattern(char ch, Map<Character, String[]> map) {
 
-        for (CharacterPatternMap map : charMaps) {
-            if (map.getCharacter() == ch) {
-                return map.getPattern();
-            }
+        if (map.containsKey(ch)) {
+            return map.get(ch);
         }
 
-        return getCharacterPattern(' ', charMaps);
+        return map.get(' ');
     }
 
-    // Print message as banner
-    public static void printMessage(String message, CharacterPatternMap[] charMaps) {
+    // Print banner message
+    public static void printMessage(String message, Map<Character, String[]> map) {
 
         int height = 7;
 
@@ -107,7 +105,7 @@ public class OOPSBannerApp {
 
                 char ch = message.charAt(j);
 
-                String[] pattern = getCharacterPattern(ch, charMaps);
+                String[] pattern = getCharacterPattern(ch, map);
 
                 line.append(pattern[i]).append(" ");
             }
@@ -116,13 +114,12 @@ public class OOPSBannerApp {
         }
     }
 
-    // Main method
     public static void main(String[] args) {
 
-        CharacterPatternMap[] charMaps = createCharacterPatternMaps();
+        Map<Character, String[]> map = createCharacterPatternMap();
 
         String message = "OOPS";
 
-        printMessage(message, charMaps);
+        printMessage(message, map);
     }
 }
